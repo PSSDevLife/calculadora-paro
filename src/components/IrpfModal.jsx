@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './IrpfModal.module.css';
 
-function IrpfModal({ isOpen, onClose, onCalculateIrpf, baseReguladoraFromForm, onBaseUpdate }) {
-  // Se ha eliminado el estado para el bruto
+// Recibimos la nueva prop diasYaCobrados
+function IrpfModal({ isOpen, onClose, onCalculateIrpf, baseReguladoraFromForm, onBaseUpdate, diasYaCobrados }) {
   const [netoReal, setNetoReal] = useState('');
   const [baseModal, setBaseModal] = useState('');
   const [diasModal, setDiasModal] = useState('');
@@ -23,26 +23,28 @@ function IrpfModal({ isOpen, onClose, onCalculateIrpf, baseReguladoraFromForm, o
       return;
     }
 
-    // --- LÓGICA MODIFICADA ---
-    // 1. Calculamos el importe bruto teórico (asumiendo el 70% del primer tramo)
-    const brutoCalculado = baseParaCalculo * diasParaCalculo * 0.70;
+    // --- LÓGICA DE CÁLCULO DE BRUTO TOTALMENTE NUEVA ---
+    // Ahora el bruto se calcula teniendo en cuenta los tramos
+    let brutoCalculado = 0;
+    const diasRestantesTramo1 = Math.max(0, 180 - diasYaCobrados);
+    const diasEnTramo1 = Math.min(diasParaCalculo, diasRestantesTramo1);
+    const diasEnTramo2 = diasParaCalculo - diasEnTramo1;
 
-    // 2. Calculamos la deducción teórica de la Seguridad Social
+    if (diasEnTramo1 > 0) brutoCalculado += diasEnTramo1 * baseParaCalculo * 0.70;
+    if (diasEnTramo2 > 0) brutoCalculado += diasEnTramo2 * baseParaCalculo * 0.60;
+    
+    // El resto de la lógica permanece igual
     const baseCotizacion = baseParaCalculo * diasParaCalculo;
     const seguridadSocial = baseCotizacion * 0.048;
-
-    // 3. Calculamos la cantidad deducida como IRPF
     const irpfDeducido = brutoCalculado - neto - seguridadSocial;
 
     if (brutoCalculado <= 0 || irpfDeducido < 0) {
-      alert("El importe neto es demasiado alto para esa base y días. Revisa los datos, el neto no puede superar al bruto menos la Seg. Social.");
+      alert("El importe neto es demasiado alto para esa base y días. Revisa los datos.");
       return;
     }
     
-    // 4. Calculamos el porcentaje que representa esa deducción sobre el bruto
     const irpfPercentage = (irpfDeducido / brutoCalculado) * 100;
 
-    // 5. Si la base se introdujo en el modal, la actualizamos en el formulario principal
     if (!baseReguladoraFromForm && baseModal) {
       onBaseUpdate({ target: { value: baseModal } });
     }
@@ -59,42 +61,39 @@ function IrpfModal({ isOpen, onClose, onCalculateIrpf, baseReguladoraFromForm, o
     <div className={styles.modalBackdrop} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <h2>Calcular Porcentaje de IRPF</h2>
-        <p>Introduce el importe neto de tu primer cobro (o uno dentro de los primeros 180 días) para estimar el IRPF.</p>
+        <p>Introduce los datos de cualquier cobro para estimar el IRPF que te aplicaron.</p>
         
         {!baseReguladoraFromForm && (
           <div className={styles.inputGroup}>
             <label>Base Reguladora Diaria (€)</label>
             <input 
               type="number" 
-              step="0.01"
-              value={baseModal}
-              onChange={(e) => setBaseModal(e.target.value)}
-              placeholder="Ej: 61.44"
+              step="0.01" 
+              value={baseModal} 
+              onChange={(e) => setBaseModal(e.target.value)} 
+              placeholder="Ej: 61.44" 
             />
           </div>
         )}
-
         <div className={styles.inputGroup}>
           <label>Días del periodo cobrado</label>
           <input 
             type="number" 
-            value={diasModal}
-            onChange={(e) => setDiasModal(e.target.value)}
-            placeholder="Ej: 30"
+            value={diasModal} 
+            onChange={(e) => setDiasModal(e.target.value)} 
+            placeholder="Ej: 30" 
           />
         </div>
-
         <div className={styles.inputGroup}>
-          <label>Primer importe neto que recibiste (€)</label>
+          <label>Importe Neto que recibiste (€)</label>
           <input 
             type="number" 
-            step="0.01"
-            value={netoReal}
-            onChange={(e) => setNetoReal(e.target.value)}
-            placeholder="Ej: 759.45"
+            step="0.01" 
+            value={netoReal} 
+            onChange={(e) => setNetoReal(e.target.value)} 
+            placeholder="Ej: 759.45" 
           />
         </div>
-
         <div className={styles.buttonGroup}>
           <button onClick={onClose} className={styles.cancelBtn}>Cancelar</button>
           <button onClick={handleCalculate} className={styles.confirmBtn}>Calcular y Aplicar</button>

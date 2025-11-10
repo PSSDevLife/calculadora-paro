@@ -5,6 +5,8 @@ import styles from './CalculatorForm.module.css';
 import IrpfModal from './IrpfModal';
 import { FiAlertCircle } from 'react-icons/fi';
 
+// Se ha eliminado la importación del hook 'useWindowSize'
+
 const calculateDays = (start, end) => {
   if (!start || !end) return 0;
   const diffTime = end.getTime() - start.getTime();
@@ -19,43 +21,56 @@ function CalculatorForm({
   onDiasCotizadosChange, 
   diasTotalesPrestacion,
   baseReguladora, 
-  onBaseReguladoraChange
+  onBaseReguladoraChange,
+  diasYaCobrados
 }) {
   const [dateRange, setDateRange] = useState([new Date(), new Date()]);
   const [startDate, endDate] = dateRange;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Se ha eliminado la lógica responsive que usaba el hook 'useWindowSize'
+
+  const diasRestantes = Math.max(0, diasTotalesPrestacion - diasYaCobrados);
+  const diasSeleccionados = calculateDays(startDate, endDate);
+  const isOverLimit = diasSeleccionados > diasRestantes;
+  
+  let maxEndDate = null;
+  if (startDate && diasRestantes > 0) {
+    maxEndDate = new Date(startDate);
+    maxEndDate.setDate(startDate.getDate() + diasRestantes - 1);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isOverLimit) return;
     const base = parseFloat(baseReguladora);
-    if (!endDate) {
-      alert("Por favor, selecciona una fecha de fin.");
-      return;
+    if (!endDate) { 
+      alert("Por favor, selecciona una fecha de fin."); 
+      return; 
     }
-    const dias = calculateDays(startDate, endDate);
+    const dias = diasSeleccionados;
     const irpf = parseFloat(irpfPercentage);
-    if (isNaN(base) || base <= 0 || dias <= 0) {
-      alert("Por favor, introduce valores válidos.");
-      return;
+    if (isNaN(base) || base <= 0 || dias <= 0) { 
+      alert("Por favor, introduce valores válidos."); 
+      return; 
     }
     onCalculate(base, dias, irpf, startDate, endDate);
   };
 
-  const handleUpdateIrpf = (newPercentage) => {
-    onIrpfChange({ target: { value: newPercentage } });
+  const handleUpdateIrpf = (newPercentage) => { 
+    onIrpfChange({ target: { value: newPercentage } }); 
   };
 
   return (
     <>
       <IrpfModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onCalculateIrpf={handleUpdateIrpf}
-        baseReguladoraFromForm={baseReguladora}
-        // Pasamos la función que actualiza la base reguladora en el estado principal
-        onBaseUpdate={onBaseReguladoraChange}
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onCalculateIrpf={handleUpdateIrpf} 
+        baseReguladoraFromForm={baseReguladora} 
+        onBaseUpdate={onBaseReguladoraChange} 
+        diasYaCobrados={diasYaCobrados} 
       />
-
       <div className={styles.card}>
         <div className={styles.configSection}>
           <div className={styles.inputGroup}>
@@ -75,7 +90,6 @@ function CalculatorForm({
             <span>de prestación</span>
           </div>
         </div>
-
         <h2>Nuevo Cálculo</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
@@ -90,7 +104,6 @@ function CalculatorForm({
               required 
             />
           </div>
-
           <div className={styles.inputGroup}>
             <label>Periodo de Cálculo</label>
             <div className={styles.calendarWrapper}>
@@ -99,13 +112,26 @@ function CalculatorForm({
                 startDate={startDate} 
                 endDate={endDate} 
                 onChange={(update) => { setDateRange(update); }} 
-                monthsShown={2} 
+                // Cambio clave: se fuerza a mostrar siempre 1 mes
+                monthsShown={1} 
                 inline 
                 dateFormat="dd/MM/yyyy" 
               />
             </div>
           </div>
           
+          {diasRestantes <= 0 && diasTotalesPrestacion > 0 && ( 
+            <div className={styles.errorText}>
+              Ya has registrado todos tus días de prestación ({diasTotalesPrestacion} días).
+            </div> 
+          )}
+          {isOverLimit && maxEndDate && ( 
+            <div className={styles.errorText}>
+              Has seleccionado {diasSeleccionados} días, pero solo te quedan {diasRestantes}.<br/>
+              Puedes seleccionar como máximo hasta el <strong>{maxEndDate.toLocaleDateString('es-ES')}</strong>.
+            </div> 
+          )}
+
           <div className={styles.inputGroup}>
             <div className={styles.irpfLabelGroup}>
               <label htmlFor="irpf">Porcentaje de IRPF (%)</label>
@@ -127,9 +153,13 @@ function CalculatorForm({
               required 
             />
           </div>
-
-          <button type="submit" className={styles.calculateBtn}>
-            Calcular ({calculateDays(startDate, endDate)} días)
+          
+          <button 
+            type="submit" 
+            className={styles.calculateBtn} 
+            disabled={isOverLimit || diasRestantes <= 0 || diasSeleccionados <= 0}
+          >
+            Calcular ({diasSeleccionados} días)
           </button>
         </form>
       </div>

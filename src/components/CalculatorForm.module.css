@@ -120,3 +120,37 @@
   background-color: var(--primary-color);
   color: white;
 }
+
+@media (max-width: 768px) {
+  .configSection {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .calendarWrapper .react-datepicker {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Nuevos estilos para el mensaje de error y botón desactivado */
+.errorText {
+  background-color: #fbebeb;
+  color: #c0392b;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.calculateBtn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.calculateBtn:disabled:hover {
+  background-color: #bdc3c7;
+}

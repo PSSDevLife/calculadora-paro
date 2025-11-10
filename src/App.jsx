@@ -52,8 +52,16 @@ function App() {
     localStorage.setItem('paroHistory', JSON.stringify(history));
   }, [history]);
 
+  const diasYaCobrados = history.reduce((acc, curr) => acc + curr.dias, 0);
+
   const handleCalculate = (base, dias, irpf, startDate, endDate) => {
-    const diasYaCobrados = history.reduce((acc, curr) => acc + curr.dias, 0);
+    // Control de seguridad final
+    const diasRestantes = diasTotalesPrestacion - diasYaCobrados;
+    if (dias > diasRestantes) {
+      alert("Error: El número de días seleccionados supera los días de prestación restantes. Por favor, ajusta las fechas.");
+      return; // Detiene la ejecución
+    }
+
     let importeBruto = 0;
     const diasRestantesTramo1 = Math.max(0, 180 - diasYaCobrados);
     const diasEnTramo1 = Math.min(dias, diasRestantesTramo1);
@@ -115,10 +123,11 @@ function App() {
           diasTotalesPrestacion={diasTotalesPrestacion}
           baseReguladora={baseReguladora}
           onBaseReguladoraChange={handleBaseReguladoraChange}
+          diasYaCobrados={diasYaCobrados}
         />
         <HistoryList 
           history={history} 
-          onDelete={handleDelete}
+          onDelete={handleDelete} 
           onClearHistory={handleClearHistory} 
         />
       </main>

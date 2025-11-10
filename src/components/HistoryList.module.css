@@ -37,3 +37,10 @@
   background-color: #e74c3c;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .historyHeader {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
