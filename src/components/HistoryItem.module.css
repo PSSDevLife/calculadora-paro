@@ -1,0 +1,109 @@
+/* src/components/HistoryItem.module.css */
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  cursor: pointer;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Espacio entre el número de días y el período */
+}
+
+.days {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.period {
+  font-size: 0.9em;
+  font-weight: 400;
+  color: var(--text-light);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: right;
+}
+
+.netAmount {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.details {
+  padding: 0 25px 25px 25px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 0.95em;
+}
+
+.detailRow span:first-child { color: var(--text-light); }
+.detailRow span:last-child { font-weight: 600; }
+.bold span { font-weight: 700 !important; color: var(--text-dark) !important; }
+.deduction span:last-child { color: #e74c3c; }
+.total { font-size: 1.2em; font-weight: 700; color: var(--primary-color) !important; }
+.total span { color: var(--primary-color) !important; }
+
+.divider {
+  border: 0;
+  height: 1px;
+  background-color: #f0f2f5;
+  margin: 10px 0;
+}
+
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fbebeb;
+  color: #e74c3c;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.deleteBtn:hover {
+  background-color: #e74c3c;
+  color: white;
+}
