@@ -1,14 +1,20 @@
-// src/components/HistoryList.jsx
 import React from 'react';
 import HistoryItem from './HistoryItem';
 import styles from './HistoryList.module.css';
+import { FiTrash2 } from 'react-icons/fi';
 
-function HistoryList({ history, onDelete }) {
-  const totalDiasCobrados = history.reduce((acc, curr) => acc + curr.dias, 0);
-
+function HistoryList({ history, onDelete, onClearHistory }) {
   return (
     <section className={styles.historySection}>
-      <h2>Historial de Cálculos ({totalDiasCobrados} días en total)</h2>
+      <div className={styles.historyHeader}>
+        <h2>Historial de Cálculos</h2>
+        {history.length > 0 && (
+          <button onClick={onClearHistory} className={styles.clearAllBtn}>
+            <FiTrash2 size={14} /> Borrar Todo
+          </button>
+        )}
+      </div>
+
       {history.length === 0 ? (
         <p className={styles.emptyHistory}>No hay cálculos guardados todavía.</p>
       ) : (

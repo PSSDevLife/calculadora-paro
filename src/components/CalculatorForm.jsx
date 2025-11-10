@@ -1,9 +1,9 @@
-// src/components/CalculatorForm.jsx
-
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './CalculatorForm.module.css';
+import IrpfModal from './IrpfModal';
+import { FiAlertCircle } from 'react-icons/fi';
 
 const calculateDays = (start, end) => {
   if (!start || !end) return 0;
@@ -11,91 +11,129 @@ const calculateDays = (start, end) => {
   return Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
 
-function CalculatorForm({ onCalculate, irpfPercentage, onIrpfChange }) {
-  const [baseReguladora, setBaseReguladora] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+function CalculatorForm({ 
+  onCalculate, 
+  irpfPercentage, 
+  onIrpfChange, 
+  diasCotizados, 
+  onDiasCotizadosChange, 
+  diasTotalesPrestacion,
+  baseReguladora, 
+  onBaseReguladoraChange
+}) {
+  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  const [startDate, endDate] = dateRange;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const base = parseFloat(baseReguladora);
-    const dias = calculateDays(startDate, endDate);
-    const irpf = parseFloat(irpfPercentage);
-
-    if (isNaN(base) || base <= 0 || dias <= 0) {
-      alert("Por favor, introduce una base reguladora válida y un rango de fechas correcto.");
+    if (!endDate) {
+      alert("Por favor, selecciona una fecha de fin.");
       return;
     }
-
-    // Se pasan las fechas startDate y endDate al handler
+    const dias = calculateDays(startDate, endDate);
+    const irpf = parseFloat(irpfPercentage);
+    if (isNaN(base) || base <= 0 || dias <= 0) {
+      alert("Por favor, introduce valores válidos.");
+      return;
+    }
     onCalculate(base, dias, irpf, startDate, endDate);
   };
 
+  const handleUpdateIrpf = (newPercentage) => {
+    onIrpfChange({ target: { value: newPercentage } });
+  };
+
   return (
-    <div className={styles.card}>
-      <h2>Nuevo Cálculo</h2>
-      <form onSubmit={handleSubmit}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="base">Base Reguladora Diaria (€)</label>
-          <input
-            id="base"
-            type="number"
-            step="0.01"
-            value={baseReguladora}
-            onChange={(e) => setBaseReguladora(e.target.value)}
-            placeholder="Ej: 61.44"
-            required
-          />
-        </div>
-        
-        <div className={styles.datePickerGroup}>
+    <>
+      <IrpfModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCalculateIrpf={handleUpdateIrpf}
+        baseReguladoraFromForm={baseReguladora}
+        // Pasamos la función que actualiza la base reguladora en el estado principal
+        onBaseUpdate={onBaseReguladoraChange}
+      />
+
+      <div className={styles.card}>
+        <div className={styles.configSection}>
           <div className={styles.inputGroup}>
-            <label htmlFor="startDate">Fecha de Inicio</label>
-            <DatePicker
-              id="startDate"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              dateFormat="dd/MM/yyyy"
-              className={styles.dateInput}
+            <label htmlFor="cotizados">Días Cotizados (últimos 6 años)</label>
+            <input 
+              id="cotizados" 
+              type="number" 
+              value={diasCotizados} 
+              onChange={onDiasCotizadosChange} 
+              placeholder="Ej: 1080" 
+              required 
             />
           </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="endDate">Fecha de Fin</label>
-            <DatePicker
-              id="endDate"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-              dateFormat="dd/MM/yyyy"
-              className={styles.dateInput}
-            />
+          <div className={styles.prestacionInfo}>
+            <span>Te corresponden:</span>
+            <span className={styles.prestacionDays}>{diasTotalesPrestacion} días</span>
+            <span>de prestación</span>
           </div>
         </div>
 
-        <div className={styles.inputGroup}>
-            <label htmlFor="irpf">Porcentaje de IRPF (%)</label>
-            <input
-                id="irpf"
-                type="number"
-                step="0.01"
-                value={irpfPercentage}
-                onChange={onIrpfChange}
-                className={styles.irpfInput}
-                required
+        <h2>Nuevo Cálculo</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="base">Base Reguladora Diaria (€)</label>
+            <input 
+              id="base" 
+              type="number" 
+              step="0.01" 
+              value={baseReguladora} 
+              onChange={onBaseReguladoraChange} 
+              placeholder="Ej: 61.44" 
+              required 
             />
-        </div>
-        
-        <button type="submit" className={styles.calculateBtn}>
-          Calcular ({calculateDays(startDate, endDate)} días)
-        </button>
-      </form>
-    </div>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label>Periodo de Cálculo</label>
+            <div className={styles.calendarWrapper}>
+              <DatePicker 
+                selectsRange={true} 
+                startDate={startDate} 
+                endDate={endDate} 
+                onChange={(update) => { setDateRange(update); }} 
+                monthsShown={2} 
+                inline 
+                dateFormat="dd/MM/yyyy" 
+              />
+            </div>
+          </div>
+          
+          <div className={styles.inputGroup}>
+            <div className={styles.irpfLabelGroup}>
+              <label htmlFor="irpf">Porcentaje de IRPF (%)</label>
+              <button 
+                type="button" 
+                className={styles.irpfCalcBtn} 
+                onClick={() => setIsModalOpen(true)}
+              >
+                <FiAlertCircle size={14} /> Calcular
+              </button>
+            </div>
+            <input 
+              id="irpf" 
+              type="number" 
+              step="0.01" 
+              value={irpfPercentage} 
+              onChange={onIrpfChange} 
+              className={styles.irpfInput} 
+              required 
+            />
+          </div>
+
+          <button type="submit" className={styles.calculateBtn}>
+            Calcular ({calculateDays(startDate, endDate)} días)
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 
