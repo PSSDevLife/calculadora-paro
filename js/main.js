@@ -1,7 +1,7 @@
 // main.js
 import { obtenerDiasDerecho, obtenerTopesLegales, estimarTipoIRPF, deducirIRPFDePagos } from "./calculator.js";
-import { guardarDatos, cargarDatos, obtenerDatosLocales, importarDatosDeArchivo, crearBlobParaExportar } from "./storage.js";
-import { animarGuardado, renderizarFilaPago, renumerarPagos, actualizarUIAuth } from "./ui.js";
+import { guardarDatos, cargarDatos, obtenerDatosPorDefecto } from "./storage.js";
+import { mostrarNotificacionToast, renderizarFilaPago, renumerarPagos, actualizarUIAuth } from "./ui.js";
 import { auth, provider, signInWithPopup, signOut, onAuthStateChanged } from "./firebase-setup.js";
 
 // DOM Elements
@@ -15,8 +15,6 @@ const formElements = {
 const tbodyPagos = document.getElementById("cuerpoTablaPagos");
 const btnAgregarPago = document.getElementById("btnAgregarPago");
 const btnVaciar = document.getElementById("btnVaciar");
-const btnRespaldar = document.getElementById("btnRespaldar");
-const inputImportar = document.getElementById("archivoImportar");
 
 // State
 let isAuthReady = false;
@@ -38,9 +36,9 @@ async function inicializar() {
       }
     });
   } else {
-    // Modo local
+    // Modo sin configuración (error)
     isAuthReady = true;
-    const datos = obtenerDatosLocales();
+    const datos = obtenerDatosPorDefecto();
     pintarDatosEnUI(datos);
     calcularTodo();
     actualizarUIAuth(null);
@@ -57,8 +55,7 @@ function configurarEventosAuth() {
     btnIn.addEventListener("click", async () => {
       try {
         await signInWithPopup(auth, provider);
-        // La recarga de datos se manejará en onAuthStateChanged
-        location.reload(); // Recargar para sincronizar bien en este diseño simple
+        location.reload(); 
       } catch (error) {
         console.error("Error al iniciar sesión:", error);
       }
@@ -94,34 +91,6 @@ function configurarEventosBasicos() {
   btnVaciar.addEventListener("click", () => {
     tbodyPagos.innerHTML = "";
     manejarCambioDatos();
-  });
-
-  btnRespaldar.addEventListener("click", () => {
-    const blob = crearBlobParaExportar();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `Copia_Seguridad_Paro_SEPE_${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  inputImportar.addEventListener("change", (evento) => {
-    const archivo = evento.target.files[0];
-    if (!archivo) return;
-    const lector = new FileReader();
-    lector.onload = async function(e) {
-      try {
-        const datos = importarDatosDeArchivo(e.target.result);
-        pintarDatosEnUI(datos);
-        await manejarCambioDatos();
-      } catch (err) {
-        alert("Error al leer el archivo de copia de seguridad.");
-      }
-    };
-    lector.readAsText(archivo);
-    // Resetear el input file para permitir importar el mismo archivo otra vez
-    evento.target.value = '';
   });
 }
 
@@ -164,7 +133,7 @@ async function manejarCambioDatos() {
   const exito = await guardarDatos(datosActuales);
   
   if (exito) {
-    animarGuardado();
+    mostrarNotificacionToast();
   }
 }
 

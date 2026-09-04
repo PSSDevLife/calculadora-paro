@@ -27,30 +27,20 @@
           <p class="text-slate-400 text-xs md:text-sm mt-0.5">Control económico, autocalibración de IRPF y persistencia continua en la nube.</p>
         </div>
         
-        <!-- Controles de Respaldo, Guardado y Auth -->
+        <!-- Contenedor Auth de Google -->
         <div class="flex flex-wrap items-center gap-3">
-          
-          <!-- Contenedor Auth de Google -->
           <div id="contenedorAuth" class="flex items-center">
             <!-- Se inyecta desde ui.js -->
           </div>
-
-          <!-- Botón de estado con pulsación y cambio visual -->
-          <div id="indicadorGuardado" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 border border-slate-700 text-slate-300 transition-all duration-200">
-            <span id="puntoLuz" class="w-2 h-2 rounded-full bg-slate-400 transition-colors duration-200"></span>
-            <span id="textoGuardado">Autoguardado</span>
-          </div>
-
-          <button id="btnRespaldar" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1">
-            💾 Respaldar
-          </button>
-          <label class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1">
-            📂 Restaurar
-            <input type="file" id="archivoImportar" accept=".json" class="hidden">
-          </label>
         </div>
       </div>
     </header>
+
+    <!-- Alerta de no inicio de sesión -->
+    <div id="alertaNoLogin" class="hidden bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-xl shadow-sm text-sm font-medium flex items-center gap-2">
+      <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      Inicia sesión con Google para habilitar el guardado automático. Si no inicias sesión, los datos se perderán al cerrar la página.
+    </div>
 
     <!-- Formulario de Parámetros -->
     <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">

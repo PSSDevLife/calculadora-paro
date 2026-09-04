@@ -1,8 +1,6 @@
 // storage.js
 import { auth, db, doc, setDoc, getDoc } from "./firebase-setup.js";
 
-const CLAVE_STORAGE = "sepe_calculadora_datos_v1";
-
 const datosPorDefecto = {
   brd: 61.44,
   diasCotizados: 1040,
@@ -21,12 +19,8 @@ const datosPorDefecto = {
   ]
 };
 
-// Guarda los datos. Si el usuario está autenticado, los guarda en Firestore; si no, en localStorage
+// Guarda los datos SOLO en la nube si hay sesión. 
 export async function guardarDatos(datos) {
-  // Siempre guardamos en local como respaldo
-  localStorage.setItem(CLAVE_STORAGE, JSON.stringify(datos));
-
-  // Si hay usuario logueado en Firebase, guardamos en la nube
   if (auth && auth.currentUser && db) {
     try {
       const userDocRef = doc(db, "usuarios", auth.currentUser.uid);
@@ -40,46 +34,27 @@ export async function guardarDatos(datos) {
       return false;
     }
   }
-  return true; // Éxito local
+  return false; // No hay usuario, no se guarda
 }
 
-// Carga los datos. Si hay usuario, intenta traerlos de la nube. Si no, usa local o por defecto.
+// Carga los datos de la nube. Si no hay usuario, devuelve los por defecto.
 export async function cargarDatos() {
   if (auth && auth.currentUser && db) {
     try {
       const userDocRef = doc(db, "usuarios", auth.currentUser.uid);
       const docSnap = await getDoc(userDocRef);
       if (docSnap.exists() && docSnap.data().datosCalculadora) {
-        const datosNube = docSnap.data().datosCalculadora;
-        // Sincronizar en local
-        localStorage.setItem(CLAVE_STORAGE, JSON.stringify(datosNube));
-        return datosNube;
+        return docSnap.data().datosCalculadora;
       }
     } catch (error) {
       console.error("Error cargando de Firebase:", error);
     }
   }
 
-  // Fallback a localStorage
-  const guardado = localStorage.getItem(CLAVE_STORAGE);
-  return guardado ? JSON.parse(guardado) : datosPorDefecto;
+  // Fallback a defecto si no hay usuario o hay error
+  return datosPorDefecto;
 }
 
-export function obtenerDatosLocales() {
-  const guardado = localStorage.getItem(CLAVE_STORAGE);
-  return guardado ? JSON.parse(guardado) : datosPorDefecto;
-}
-
-export function importarDatosDeArchivo(contenidoArchivo) {
-  try {
-    const datos = JSON.parse(contenidoArchivo);
-    return datos;
-  } catch (err) {
-    throw new Error("Formato de archivo inválido");
-  }
-}
-
-export function crearBlobParaExportar() {
-  const datos = localStorage.getItem(CLAVE_STORAGE) || JSON.stringify(datosPorDefecto);
-  return new Blob([datos], { type: "application/json" });
+export function obtenerDatosPorDefecto() {
+  return datosPorDefecto;
 }

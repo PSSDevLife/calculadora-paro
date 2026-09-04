@@ -2,33 +2,11 @@
 // Contiene funciones para actualizar el DOM y animaciones visuales
 
 let temporizadorToast = null;
-let temporizadorGuardado = null;
 
-export function animarGuardado() {
-  const boton = document.getElementById("indicadorGuardado");
-  const punto = document.getElementById("puntoLuz");
-  const texto = document.getElementById("textoGuardado");
+export function mostrarNotificacionToast() {
   const toast = document.getElementById("toastNotificacion");
+  if (!toast) return;
 
-  if (!boton || !punto || !texto || !toast) return;
-
-  // 1. Animación del botón en la cabecera
-  boton.classList.remove("bg-slate-800", "border-slate-700", "text-slate-300");
-  boton.classList.add("bg-emerald-500/20", "border-emerald-400", "text-emerald-300", "scale-105");
-  punto.classList.remove("bg-slate-400");
-  punto.classList.add("bg-emerald-400", "animate-ping");
-  texto.textContent = "Guardado";
-
-  clearTimeout(temporizadorGuardado);
-  temporizadorGuardado = setTimeout(() => {
-    boton.classList.remove("bg-emerald-500/20", "border-emerald-400", "text-emerald-300", "scale-105");
-    boton.classList.add("bg-slate-800", "border-slate-700", "text-slate-300");
-    punto.classList.remove("bg-emerald-400", "animate-ping");
-    punto.classList.add("bg-slate-400");
-    texto.textContent = "Autoguardado";
-  }, 1200);
-
-  // 2. Notificación Toast
   toast.classList.remove("translate-x-72", "opacity-0");
   toast.classList.add("translate-x-0", "opacity-100");
 
@@ -66,6 +44,16 @@ export function renumerarPagos(tbody) {
 
 export function actualizarUIAuth(usuario) {
   const contenedorAuth = document.getElementById("contenedorAuth");
+  const alertaNoLogin = document.getElementById("alertaNoLogin");
+  
+  if (alertaNoLogin) {
+    if (usuario) {
+      alertaNoLogin.classList.add("hidden");
+    } else {
+      alertaNoLogin.classList.remove("hidden");
+    }
+  }
+
   if (!contenedorAuth) return;
 
   if (usuario) {
