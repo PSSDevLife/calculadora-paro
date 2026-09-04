@@ -52,24 +52,24 @@ export function renderizarFilaPago(tbody, num, fecha = "", importe = "") {
   }
 
   tr.innerHTML = `
-    <td class="p-2 md:p-3 text-slate-400 dark:text-slate-500 font-mono idx-pago text-center">${num}</td>
+    <td class="p-2 md:p-3 text-slate-500 dark:text-slate-400 font-mono idx-pago text-center font-bold">${num}</td>
     <td class="p-2 md:p-3">
       <div class="flex gap-1.5 min-w-[130px]">
-        <select class="input-mes flex-1 p-2 border border-slate-300 dark:border-slate-600 rounded-lg text-xs bg-white dark:bg-slate-700 text-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-colors">
+        <select class="input-mes flex-1 p-2 border-2 border-slate-300 dark:border-slate-600 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 text-slate-800 dark:text-white focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 outline-none transition-colors shadow-sm">
           ${generarOpcionesMes(mesSel)}
         </select>
-        <select class="input-año flex-1 p-2 border border-slate-300 dark:border-slate-600 rounded-lg text-xs bg-white dark:bg-slate-700 text-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-colors">
+        <select class="input-año flex-1 p-2 border-2 border-slate-300 dark:border-slate-600 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 text-slate-800 dark:text-white focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 outline-none transition-colors shadow-sm">
           ${generarOpcionesAño(añoSel)}
         </select>
       </div>
     </td>
     <td class="p-2 md:p-3">
       <div class="relative">
-        <input type="number" step="0.01" value="${importe}" placeholder="0.00" class="input-importe w-full min-w-[90px] p-2 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none pr-7 bg-white dark:bg-slate-700 transition-colors">
-        <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-xs font-bold pointer-events-none">€</span>
+        <input type="number" step="0.01" value="${importe}" placeholder="0.00" class="input-importe w-full min-w-[90px] p-2 border-2 border-slate-300 dark:border-slate-600 rounded-lg text-xs font-black text-slate-900 dark:text-white focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 outline-none pr-7 bg-white dark:bg-slate-700 transition-colors shadow-sm">
+        <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-xs font-bold pointer-events-none">€</span>
       </div>
     </td>
-    <td class="p-2 md:p-3 text-slate-800 dark:text-slate-200 font-bold col-dias text-center">-</td>
+    <td class="p-2 md:p-3 text-slate-800 dark:text-slate-200 font-black col-dias text-center">-</td>
     <td class="p-2 md:p-3 col-tramo text-center">-</td>
     <td class="p-2 md:p-3 text-center">
       <button class="btn-eliminar-pago text-slate-400 dark:text-slate-500 hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:text-rose-600 dark:hover:text-rose-400 font-bold w-7 h-7 rounded-lg flex items-center justify-center mx-auto transition-colors">✕</button>

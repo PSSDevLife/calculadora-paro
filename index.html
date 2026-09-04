@@ -18,7 +18,7 @@
   </script>
   <script type="module" src="./js/main.js" defer></script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 p-3 md:p-8 font-sans transition-colors duration-300">
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-200 p-3 md:p-8 font-sans transition-colors duration-300">
 
   <!-- Notificación Toast Flotante -->
   <div id="toastNotificacion" class="fixed top-5 right-5 z-50 transform translate-x-72 opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-2 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm text-emerald-400 border border-emerald-500/40 px-3.5 py-2 rounded-xl shadow-xl text-xs font-semibold">
@@ -51,32 +51,32 @@
     </header>
 
     <!-- Alerta -->
-    <div id="alertaNoLogin" class="hidden bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50 text-amber-800 dark:text-amber-300 px-4 py-3 rounded-2xl shadow-sm text-sm font-medium flex items-center gap-2">
+    <div id="alertaNoLogin" class="hidden bg-amber-50 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700/50 text-amber-900 dark:text-amber-300 px-4 py-3 rounded-2xl shadow-sm text-sm font-medium flex items-center gap-2">
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
       Inicia sesión con Google para habilitar el guardado automático. Si no inicias sesión, los datos se perderán al salir.
     </div>
 
     <!-- Parámetros -->
-    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
-      <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-        <span class="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 w-5 h-5 flex items-center justify-center rounded-full">1</span> 
+    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-md border border-slate-300 dark:border-slate-800 transition-colors">
+      <h2 class="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <span class="bg-blue-100 border border-blue-200 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 w-5 h-5 flex items-center justify-center rounded-full">1</span> 
         Datos del Reconocimiento
       </h2>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Base Reguladora (€/día)</label>
-          <input type="number" id="brd" value="0" step="0.01" class="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-400 mb-1.5">Base Reguladora (€/día)</label>
+          <input type="number" id="brd" value="0" step="0.01" class="w-full p-2.5 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:border-blue-500 focus:ring-blue-500 outline-none transition-colors shadow-sm">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Días Cotizados</label>
-          <input type="number" id="diasCotizados" value="0" class="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-400 mb-1.5">Días Cotizados</label>
+          <input type="number" id="diasCotizados" value="0" class="w-full p-2.5 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:border-blue-500 focus:ring-blue-500 outline-none transition-colors shadow-sm">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Hijos a cargo</label>
-          <select id="hijos" class="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-400 mb-1.5">Hijos a cargo</label>
+          <select id="hijos" class="w-full p-2.5 bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:border-blue-500 focus:ring-blue-500 outline-none transition-colors shadow-sm">
             <option value="0" selected>0 hijos</option>
             <option value="1">1 hijo</option>
             <option value="2">2 o más hijos</option>
@@ -84,121 +84,118 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Días perdidos (fuera plazo)</label>
-          <input type="number" id="diasPerdidos" value="0" class="w-full p-2.5 bg-rose-50/50 dark:bg-rose-900/10 border border-rose-300 dark:border-rose-800/50 rounded-xl text-sm font-bold text-rose-800 dark:text-rose-400 focus:ring-2 focus:ring-rose-500 outline-none transition-colors">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-400 mb-1.5">Días perdidos (fuera plazo)</label>
+          <input type="number" id="diasPerdidos" value="0" class="w-full p-2.5 bg-rose-50 dark:bg-rose-900/10 border-2 border-rose-300 dark:border-rose-800/50 rounded-xl text-sm font-bold text-rose-800 dark:text-rose-400 focus:ring-2 focus:border-rose-500 focus:ring-rose-500 outline-none transition-colors shadow-sm">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">IRPF Detectado / Aplicado</label>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-400 mb-1.5">IRPF Detectado / Aplicado</label>
           <div class="relative">
-            <input type="text" id="irpfDisplay" readonly value="0.00 %" class="w-full p-2.5 bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl text-sm font-black text-blue-900 dark:text-blue-400 text-center cursor-default transition-colors">
-            <span id="irpfTag" class="block text-[10px] text-blue-600 dark:text-blue-400 text-center font-medium mt-1">Pendiente de datos</span>
+            <input type="text" id="irpfDisplay" readonly value="0.00 %" class="w-full p-2.5 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-300 dark:border-blue-800/50 rounded-xl text-sm font-black text-blue-900 dark:text-blue-400 text-center cursor-default transition-colors shadow-sm">
+            <span id="irpfTag" class="block text-[10px] text-blue-700 dark:text-blue-400 text-center font-bold mt-1">Pendiente de datos</span>
           </div>
         </div>
       </div>
 
-      <div id="alertaTope" class="mt-4 p-3 rounded-xl border text-xs flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-400 transition-colors"></div>
+      <div id="alertaTope" class="mt-4 p-3 rounded-xl border-2 text-xs flex items-center justify-between bg-slate-100 dark:bg-slate-800/50 border-slate-300 dark:border-slate-700/50 text-slate-700 dark:text-slate-400 transition-colors shadow-sm"></div>
     </div>
 
     <!-- Tramos -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="resumenTramos"></div>
 
     <!-- Pagos Bancarios -->
-    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors space-y-4">
+    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-md border border-slate-300 dark:border-slate-800 transition-colors space-y-4">
       <div class="flex justify-between items-center flex-wrap gap-3">
         <div>
-          <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
-            <span class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 w-5 h-5 flex items-center justify-center rounded-full">2</span> 
+          <h2 class="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <span class="bg-indigo-100 border border-indigo-200 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 w-5 h-5 flex items-center justify-center rounded-full">2</span> 
             Historial de Ingresos Bancarios
           </h2>
-          <p class="text-[11px] text-slate-500 dark:text-slate-500 mt-1">Calculamos automáticamente cada importe en días oficiales e identificamos los cambios de tramo.</p>
+          <p class="text-[11px] font-medium text-slate-600 dark:text-slate-500 mt-1">Calculamos automáticamente cada importe en días oficiales e identificamos los cambios de tramo.</p>
         </div>
         <div class="flex gap-2">
-          <button id="btnAgregarPago" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm shadow-indigo-600/20">
+          <button id="btnAgregarPago" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/30">
             + Añadir Pago
           </button>
-          <button id="btnVaciar" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition">
+          <button id="btnVaciar" class="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-2 border-slate-300 dark:border-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
             Vaciar
           </button>
         </div>
       </div>
 
-      <div class="overflow-x-auto border border-slate-200 dark:border-slate-700/80 rounded-xl">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-700/80 text-[10px] sm:text-[11px]">
+      <div class="overflow-x-auto border-2 border-slate-300 dark:border-slate-700/80 rounded-xl shadow-sm">
+        <table class="w-full text-left text-xs bg-white dark:bg-slate-900">
+          <thead class="bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-400 uppercase font-bold border-b-2 border-slate-300 dark:border-slate-700/80 text-[10px] sm:text-[11px]">
             <tr>
-              <th class="p-3 text-center w-8">#</th>
-              <th class="p-3 whitespace-nowrap">Mes de Cobro</th>
-              <th class="p-3 whitespace-nowrap">Importe Neto</th>
-              <th class="p-3 text-center whitespace-nowrap">Días</th>
-              <th class="p-3 text-center whitespace-nowrap">Tramo</th>
+              <th class="p-3 text-center w-8 border-r border-slate-200 dark:border-slate-700/50">#</th>
+              <th class="p-3 whitespace-nowrap border-r border-slate-200 dark:border-slate-700/50">Mes de Cobro</th>
+              <th class="p-3 whitespace-nowrap border-r border-slate-200 dark:border-slate-700/50">Importe Neto</th>
+              <th class="p-3 text-center whitespace-nowrap border-r border-slate-200 dark:border-slate-700/50">Días</th>
+              <th class="p-3 text-center whitespace-nowrap border-r border-slate-200 dark:border-slate-700/50">Tramo</th>
               <th class="p-3 text-center">Acción</th>
             </tr>
           </thead>
-          <tbody id="cuerpoTablaPagos" class="divide-y divide-slate-100 dark:divide-slate-800/50"></tbody>
+          <tbody id="cuerpoTablaPagos" class="divide-y divide-slate-200 dark:divide-slate-800/50"></tbody>
         </table>
       </div>
     </div>
 
     <!-- Balance Global -->
-    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-md border border-slate-300 dark:border-slate-800 transition-colors space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b-2 border-slate-200 dark:border-slate-800 pb-4">
         <div>
-          <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
-            <span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 w-5 h-5 flex items-center justify-center rounded-full">3</span> 
+          <h2 class="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <span class="bg-emerald-100 border border-emerald-200 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 w-5 h-5 flex items-center justify-center rounded-full">3</span> 
             Balance Global del Expediente
           </h2>
         </div>
-        <div class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg">
+        <div class="text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-3 py-1.5 rounded-lg shadow-sm">
           Total de la bolsa: <span id="txtBolsaDineroTotal" class="text-sm font-black text-slate-900 dark:text-white ml-1">0,00 €</span>
         </div>
       </div>
 
       <!-- Barra Visual -->
-      <div class="space-y-2">
+      <div class="space-y-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl shadow-sm">
         <div class="flex justify-between items-baseline text-[11px] sm:text-xs font-bold">
-          <span class="text-slate-500 dark:text-slate-400">Progreso: <span id="txtDineroCobradoBarra" class="text-indigo-600 dark:text-indigo-400">0,00 €</span> de <span id="txtDineroTotalBarra" class="text-slate-800 dark:text-slate-200">0,00 €</span></span>
-          <span id="txtPorcentajeDinero" class="text-indigo-900 dark:text-indigo-300 font-black text-sm bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded">0%</span>
+          <span class="text-slate-600 dark:text-slate-400">Progreso: <span id="txtDineroCobradoBarra" class="text-indigo-700 dark:text-indigo-400">0,00 €</span> de <span id="txtDineroTotalBarra" class="text-slate-900 dark:text-slate-200">0,00 €</span></span>
+          <span id="txtPorcentajeDinero" class="text-indigo-900 dark:text-indigo-300 font-black text-sm bg-indigo-100 border border-indigo-200 dark:border-indigo-800 dark:bg-indigo-900/30 px-2 py-0.5 rounded shadow-sm">0%</span>
         </div>
-        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-5 flex overflow-hidden shadow-inner border border-slate-200 dark:border-slate-700/50">
-          <div id="barraCobradaDinero" class="bg-indigo-500 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero cobrado"></div>
+        <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-5 flex overflow-hidden shadow-inner border-2 border-slate-300 dark:border-slate-700/50">
+          <div id="barraCobradaDinero" class="bg-indigo-600 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero cobrado"></div>
           <div id="barraPerdidaDinero" class="bg-rose-500 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero perdido"></div>
-          <div id="barraRestanteDinero" class="bg-emerald-400 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero pendiente"></div>
+          <div id="barraRestanteDinero" class="bg-emerald-500 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero pendiente"></div>
         </div>
-        <div class="flex flex-wrap gap-4 text-[11px] text-slate-600 dark:text-slate-400 pt-2 font-medium justify-center sm:justify-start">
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-sm"></span> <strong>Cobrado</strong> (<span id="tagPctCobrado">0%</span>)</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span> <strong>Perdido</strong> (<span id="tagPctPerdido">0%</span>)</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm"></span> <strong>Pendiente</strong> (<span id="tagPctRestante">0%</span>)</span>
+        <div class="flex flex-wrap gap-4 text-[11px] text-slate-700 dark:text-slate-400 pt-2 font-bold justify-center sm:justify-start">
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border border-indigo-700 bg-indigo-600 shadow-sm"></span> Cobrado (<span id="tagPctCobrado">0%</span>)</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border border-rose-600 bg-rose-500 shadow-sm"></span> Perdido (<span id="tagPctPerdido">0%</span>)</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border border-emerald-600 bg-emerald-500 shadow-sm"></span> Pendiente (<span id="tagPctRestante">0%</span>)</span>
         </div>
       </div>
 
       <!-- Tarjetas de métricas -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2 text-center">
-        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/50 flex flex-col justify-between transition-colors">
-          <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">Total a Cobrar</span>
+        <div class="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl border-2 border-slate-300 dark:border-slate-700/50 flex flex-col justify-between transition-colors shadow-sm">
+          <span class="text-[10px] uppercase font-black text-slate-600 dark:text-slate-400 tracking-wider">Total a Cobrar</span>
           <p class="text-xl md:text-2xl font-black text-slate-900 dark:text-white my-1.5" id="resumenEurosTotalBolsa">0,00 €</p>
-          <span class="text-[11px] text-slate-500 dark:text-slate-500 font-semibold bg-white dark:bg-slate-800 rounded-lg py-1 border border-slate-100 dark:border-slate-700" id="resumenDiasDerecho">0 días concedidos</span>
+          <span class="text-[11px] text-slate-600 dark:text-slate-500 font-bold bg-white dark:bg-slate-800 rounded-lg py-1 border border-slate-300 dark:border-slate-700 shadow-sm" id="resumenDiasDerecho">0 días concedidos</span>
         </div>
 
-        <div class="p-4 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800/30 flex flex-col justify-between transition-colors">
-          <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400 tracking-wider">Llevas Cobrado</span>
+        <div class="p-4 bg-indigo-100 dark:bg-indigo-900/20 rounded-2xl border-2 border-indigo-300 dark:border-indigo-800/30 flex flex-col justify-between transition-colors shadow-sm">
+          <span class="text-[10px] uppercase font-black text-indigo-700 dark:text-indigo-400 tracking-wider">Llevas Cobrado</span>
           <p class="text-xl md:text-2xl font-black text-indigo-950 dark:text-indigo-100 my-1.5" id="resumenEurosCobrados">0,00 €</p>
-          <span class="text-[11px] text-indigo-700 dark:text-indigo-300 font-semibold bg-white/60 dark:bg-indigo-900/40 rounded-lg py-1 border border-indigo-100 dark:border-indigo-800/50" id="resumenDiasCobrados">0 días cobrados</span>
+          <span class="text-[11px] text-indigo-800 dark:text-indigo-300 font-bold bg-white/80 dark:bg-indigo-900/40 rounded-lg py-1 border border-indigo-300 dark:border-indigo-800/50 shadow-sm" id="resumenDiasCobrados">0 días cobrados</span>
         </div>
 
-        <div class="p-4 bg-emerald-50/50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-800/30 flex flex-col justify-between transition-colors">
-          <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 tracking-wider">Queda por Cobrar</span>
+        <div class="p-4 bg-emerald-100 dark:bg-emerald-900/20 rounded-2xl border-2 border-emerald-300 dark:border-emerald-800/30 flex flex-col justify-between transition-colors shadow-sm">
+          <span class="text-[10px] uppercase font-black text-emerald-700 dark:text-emerald-400 tracking-wider">Queda por Cobrar</span>
           <p class="text-xl md:text-2xl font-black text-emerald-950 dark:text-emerald-100 my-1.5" id="resumenEurosRestantes">0,00 €</p>
-          <span class="text-[11px] text-emerald-700 dark:text-emerald-300 font-semibold bg-white/60 dark:bg-emerald-900/40 rounded-lg py-1 border border-emerald-100 dark:border-emerald-800/50" id="resumenDiasRestantes">0 días pendientes</span>
+          <span class="text-[11px] text-emerald-800 dark:text-emerald-300 font-bold bg-white/80 dark:bg-emerald-900/40 rounded-lg py-1 border border-emerald-300 dark:border-emerald-800/50 shadow-sm" id="resumenDiasRestantes">0 días pendientes</span>
         </div>
 
-        <div class="p-4 bg-rose-50/50 dark:bg-rose-900/20 rounded-2xl border border-rose-100 dark:border-rose-800/30 flex flex-col justify-between transition-colors">
-          <span class="text-[10px] uppercase font-bold text-rose-600 dark:text-rose-400 tracking-wider">Perdido sin Cobro</span>
+        <div class="p-4 bg-rose-100 dark:bg-rose-900/20 rounded-2xl border-2 border-rose-300 dark:border-rose-800/30 flex flex-col justify-between transition-colors shadow-sm">
+          <span class="text-[10px] uppercase font-black text-rose-700 dark:text-rose-400 tracking-wider">Perdido sin Cobro</span>
           <p class="text-xl md:text-2xl font-black text-rose-950 dark:text-rose-100 my-1.5" id="resumenEurosPerdidos">0,00 €</p>
-          <span class="text-[11px] text-rose-700 dark:text-rose-300 font-semibold bg-white/60 dark:bg-rose-900/40 rounded-lg py-1 border border-rose-100 dark:border-rose-800/50" id="resumenDiasPerdidos">0 días perdidos</span>
+          <span class="text-[11px] text-rose-800 dark:text-rose-300 font-bold bg-white/80 dark:bg-rose-900/40 rounded-lg py-1 border border-rose-300 dark:border-rose-800/50 shadow-sm" id="resumenDiasPerdidos">0 días perdidos</span>
         </div>
       </div>
-    </div>
-  </div>
-</body>
 </html>

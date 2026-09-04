@@ -224,22 +224,22 @@ function calcularTodo() {
   const neto2 = Math.max(0, bruto2 - cuotaSS_diaria - (bruto2 * pctIrpf));
 
   document.getElementById("resumenTramos").innerHTML = `
-    <div class="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/30 p-4 rounded-2xl shadow-sm transition-colors">
+    <div class="bg-blue-100/80 dark:bg-blue-900/10 border-2 border-blue-300 dark:border-blue-800/30 p-4 rounded-2xl shadow-sm transition-colors">
       <div class="flex justify-between items-start">
-        <span class="text-[10px] font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wide">Tramo 1 (Días 1 al 180 - 70%)</span>
-        <span class="text-[10px] font-semibold bg-white dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-lg border border-blue-100 dark:border-blue-800/50">Bruto: ${bruto1.toFixed(2)} €/d</span>
+        <span class="text-[10px] font-black text-blue-800 dark:text-blue-400 uppercase tracking-wide">Tramo 1 (Días 1 al 180 - 70%)</span>
+        <span class="text-[10px] font-bold bg-white dark:bg-blue-900/40 text-blue-900 dark:text-blue-300 px-2 py-0.5 rounded-lg border border-blue-300 dark:border-blue-800/50 shadow-sm">Bruto: ${bruto1.toFixed(2)} €/d</span>
       </div>
-      <p class="text-xl md:text-2xl font-black text-blue-950 dark:text-blue-100 mt-2">${neto1.toFixed(2)} € <span class="text-sm font-bold text-blue-700/50 dark:text-blue-400/50">/ día neto</span></p>
-      <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium">Mes tipo (30 d): ${(neto1 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto1 * 30 * pctIrpf).toFixed(2)} €</p>
+      <p class="text-xl md:text-2xl font-black text-blue-950 dark:text-blue-100 mt-2">${neto1.toFixed(2)} € <span class="text-sm font-bold text-blue-800/60 dark:text-blue-400/50">/ día neto</span></p>
+      <p class="text-[11px] text-slate-700 dark:text-slate-400 mt-1.5 font-bold">Mes tipo (30 d): ${(neto1 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto1 * 30 * pctIrpf).toFixed(2)} €</p>
     </div>
 
-    <div class="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/50 p-4 rounded-2xl shadow-sm transition-colors">
+    <div class="bg-slate-100 dark:bg-slate-800/30 border-2 border-slate-300 dark:border-slate-700/50 p-4 rounded-2xl shadow-sm transition-colors">
       <div class="flex justify-between items-start">
-        <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wide">Tramo 2 (Día 181 en adelante - 60%)</span>
-        <span class="text-[10px] font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700">Bruto: ${bruto2.toFixed(2)} €/d</span>
+        <span class="text-[10px] font-black text-slate-700 dark:text-slate-400 uppercase tracking-wide">Tramo 2 (Día 181 en adelante - 60%)</span>
+        <span class="text-[10px] font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-300 px-2 py-0.5 rounded-lg border border-slate-300 dark:border-slate-700 shadow-sm">Bruto: ${bruto2.toFixed(2)} €/d</span>
       </div>
-      <p class="text-xl md:text-2xl font-black text-slate-900 dark:text-slate-100 mt-2">${neto2.toFixed(2)} € <span class="text-sm font-bold text-slate-500/50 dark:text-slate-400/50">/ día neto</span></p>
-      <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium">Mes tipo (30 d): ${(neto2 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto2 * 30 * pctIrpf).toFixed(2)} €</p>
+      <p class="text-xl md:text-2xl font-black text-slate-900 dark:text-slate-100 mt-2">${neto2.toFixed(2)} € <span class="text-sm font-bold text-slate-600/60 dark:text-slate-400/50">/ día neto</span></p>
+      <p class="text-[11px] text-slate-700 dark:text-slate-400 mt-1.5 font-bold">Mes tipo (30 d): ${(neto2 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto2 * 30 * pctIrpf).toFixed(2)} €</p>
     </div>
   `;
 
