@@ -17,31 +17,23 @@ export function mostrarNotificacionToast() {
   }, 1500);
 }
 
-function generarOpcionesMeses(fechaSeleccionada) {
-  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-  const añoActual = new Date().getFullYear();
-  let opciones = '<option value="">Mes de cobro...</option>';
-  
-  // Rango de 1 año atrás y 3 adelante
-  for (let año = añoActual - 1; año <= añoActual + 3; año++) {
-    for (let mes of meses) {
-      const valor = `${mes} ${año}`;
-      const selected = (valor === fechaSeleccionada) ? "selected" : "";
-      opciones += `<option value="${valor}" ${selected}>${valor}</option>`;
-    }
-  }
-  return opciones;
-}
-
 export function renderizarFilaPago(tbody, num, fecha = "", importe = "") {
   const tr = document.createElement("tr");
   tr.className = "hover:bg-slate-50 transition fila-pago border-b border-slate-100 last:border-0";
+  
+  // Si no hay fecha (fila nueva), usamos el mes actual por defecto (formato YYYY-MM)
+  let valorFecha = fecha;
+  if (!valorFecha) {
+    const hoy = new Date();
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    valorFecha = `${año}-${mes}`;
+  }
+
   tr.innerHTML = `
     <td class="p-2 md:p-2.5 text-slate-400 font-mono idx-pago text-center">${num}</td>
     <td class="p-2 md:p-2.5">
-      <select class="input-fecha w-full min-w-[110px] p-1.5 border border-slate-300 rounded text-xs bg-white text-slate-700 focus:ring-1 focus:ring-blue-500 outline-none">
-        ${generarOpcionesMeses(fecha)}
-      </select>
+      <input type="month" value="${valorFecha}" class="input-fecha w-full min-w-[130px] p-1.5 border border-slate-300 rounded text-xs bg-white text-slate-700 focus:ring-1 focus:ring-blue-500 outline-none">
     </td>
     <td class="p-2 md:p-2.5">
       <div class="relative">
