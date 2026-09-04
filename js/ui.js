@@ -17,23 +17,51 @@ export function mostrarNotificacionToast() {
   }, 1500);
 }
 
+function generarOpcionesMes(mesSeleccionado) {
+  const meses = [
+    { num: "01", nombre: "Ene" }, { num: "02", nombre: "Feb" }, { num: "03", nombre: "Mar" },
+    { num: "04", nombre: "Abr" }, { num: "05", nombre: "May" }, { num: "06", nombre: "Jun" },
+    { num: "07", nombre: "Jul" }, { num: "08", nombre: "Ago" }, { num: "09", nombre: "Sep" },
+    { num: "10", nombre: "Oct" }, { num: "11", nombre: "Nov" }, { num: "12", nombre: "Dic" }
+  ];
+  return meses.map(m => `<option value="${m.num}" ${m.num === mesSeleccionado ? 'selected' : ''}>${m.nombre}</option>`).join('');
+}
+
+function generarOpcionesAño(añoSeleccionado) {
+  const añoActual = new Date().getFullYear();
+  let opciones = '';
+  for (let i = añoActual - 1; i <= añoActual + 3; i++) {
+    opciones += `<option value="${i}" ${i.toString() === añoSeleccionado ? 'selected' : ''}>${i}</option>`;
+  }
+  return opciones;
+}
+
 export function renderizarFilaPago(tbody, num, fecha = "", importe = "") {
   const tr = document.createElement("tr");
   tr.className = "hover:bg-slate-50 transition fila-pago border-b border-slate-100 last:border-0";
   
-  // Si no hay fecha (fila nueva), usamos el mes actual por defecto (formato YYYY-MM)
-  let valorFecha = fecha;
-  if (!valorFecha) {
+  // Extraer mes y año de la fecha (formato YYYY-MM)
+  let mesSel = "";
+  let añoSel = "";
+  if (fecha && fecha.includes("-")) {
+    [añoSel, mesSel] = fecha.split("-");
+  } else {
     const hoy = new Date();
-    const año = hoy.getFullYear();
-    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
-    valorFecha = `${año}-${mes}`;
+    añoSel = hoy.getFullYear().toString();
+    mesSel = String(hoy.getMonth() + 1).padStart(2, '0');
   }
 
   tr.innerHTML = `
     <td class="p-2 md:p-2.5 text-slate-400 font-mono idx-pago text-center">${num}</td>
     <td class="p-2 md:p-2.5">
-      <input type="month" value="${valorFecha}" class="input-fecha w-full min-w-[130px] p-1.5 border border-slate-300 rounded text-xs bg-white text-slate-700 focus:ring-1 focus:ring-blue-500 outline-none">
+      <div class="flex gap-1 min-w-[120px]">
+        <select class="input-mes flex-1 p-1.5 border border-slate-300 rounded text-xs bg-white text-slate-700 focus:ring-1 focus:ring-blue-500 outline-none">
+          ${generarOpcionesMes(mesSel)}
+        </select>
+        <select class="input-año flex-1 p-1.5 border border-slate-300 rounded text-xs bg-white text-slate-700 focus:ring-1 focus:ring-blue-500 outline-none">
+          ${generarOpcionesAño(añoSel)}
+        </select>
+      </div>
     </td>
     <td class="p-2 md:p-2.5">
       <div class="relative">

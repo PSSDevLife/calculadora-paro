@@ -143,9 +143,12 @@ async function manejarCambioDatos() {
 function extraerDatosDeUI() {
   const pagos = [];
   tbodyPagos.querySelectorAll("tr").forEach(fila => {
-    const fecha = fila.querySelector(".input-fecha") ? fila.querySelector(".input-fecha").value : "";
+    const mes = fila.querySelector(".input-mes") ? fila.querySelector(".input-mes").value : "";
+    const año = fila.querySelector(".input-año") ? fila.querySelector(".input-año").value : "";
     const importe = fila.querySelector(".input-importe") ? fila.querySelector(".input-importe").value : "";
-    if (fecha !== "" || importe !== "") {
+    
+    if (mes !== "" && año !== "" && importe !== "") {
+      const fecha = `${año}-${mes}`;
       pagos.push({ fecha, importe: parseFloat(importe) || 0 });
     }
   });
