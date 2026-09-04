@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 // Nota: Puedes importar aquí tu instancia de firebase auth si ya la tienes configurada en tu proyecto:
 // import { auth, googleProvider } from '../firebaseConfig';
 // import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
@@ -56,12 +56,6 @@ export default function App() {
     if (cot < 1980) return 600;
     if (cot < 2160) return 660;
     return 720;
-  };
-
-  const obtenerTopesLegales = (h) => {
-    if (h === 1) return { min: 749.00, max: 1400.00 };
-    if (h >= 2) return { min: 749.00, max: 1575.00 };
-    return { min: 560.00, max: 1225.00 };
   };
 
   const estimarTipoIRPF = (brutoAnual, h) => {
@@ -123,7 +117,6 @@ export default function App() {
   const pctIrpf = pctIrpfNum / 100;
   const cuotaSS_diaria = brd * 0.047;
   const diasDerechoTotal = obtenerDiasDerecho(diasCotizados);
-  const topes = obtenerTopesLegales(hijos);
 
   const bruto1 = brd * 0.70;
   const neto1 = Math.max(0, bruto1 - cuotaSS_diaria - (bruto1 * pctIrpf));
@@ -174,10 +167,6 @@ export default function App() {
   const eurosRestantes = diasRestantes * neto2;
 
   let eurosTotalesBolsa = diasDerechoTotal <= 180 ? diasDerechoTotal * neto1 : (180 * neto1) + ((diasDerechoTotal - 180) * neto2);
-
-  const pctDineroCobrado = eurosTotalesBolsa > 0 ? Math.min(100, (totalEurosCobrados / eurosTotalesBolsa) * 100) : 0;
-  const pctDineroPerdido = eurosTotalesBolsa > 0 ? Math.min(100 - pctDineroCobrado, (dineroPerdidoEstimado / eurosTotalesBolsa) * 100) : 0;
-  const pctDineroRestante = Math.max(0, 100 - pctDineroCobrado - pctDineroPerdido);
 
   const actualizarPago = (index, campo, valor) => {
     const nuevosPagos = [...pagos];
