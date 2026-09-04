@@ -17,17 +17,42 @@ export function mostrarNotificacionToast() {
   }, 1500);
 }
 
+function generarOpcionesMeses(fechaSeleccionada) {
+  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const añoActual = new Date().getFullYear();
+  let opciones = '<option value="">Mes de cobro...</option>';
+  
+  // Rango de 1 año atrás y 3 adelante
+  for (let año = añoActual - 1; año <= añoActual + 3; año++) {
+    for (let mes of meses) {
+      const valor = `${mes} ${año}`;
+      const selected = (valor === fechaSeleccionada) ? "selected" : "";
+      opciones += `<option value="${valor}" ${selected}>${valor}</option>`;
+    }
+  }
+  return opciones;
+}
+
 export function renderizarFilaPago(tbody, num, fecha = "", importe = "") {
   const tr = document.createElement("tr");
-  tr.className = "hover:bg-slate-50 transition fila-pago";
+  tr.className = "hover:bg-slate-50 transition fila-pago border-b border-slate-100 last:border-0";
   tr.innerHTML = `
-    <td class="p-2.5 text-slate-400 font-mono idx-pago">${num}</td>
-    <td class="p-2.5"><input type="text" value="${fecha}" placeholder="dd/mm/aaaa" class="input-fecha w-28 p-1 border border-slate-300 rounded text-xs"></td>
-    <td class="p-2.5"><input type="number" step="0.01" value="${importe}" placeholder="0.00" class="input-importe w-28 p-1 border border-slate-300 rounded text-xs font-bold text-slate-900"></td>
-    <td class="p-2.5 text-slate-800 font-bold col-dias">-</td>
-    <td class="p-2.5 col-tramo">-</td>
-    <td class="p-2.5 text-center">
-      <button class="btn-eliminar-pago text-slate-400 hover:text-rose-600 font-bold px-1.5 py-0.5 rounded transition">✕</button>
+    <td class="p-2 md:p-2.5 text-slate-400 font-mono idx-pago text-center">${num}</td>
+    <td class="p-2 md:p-2.5">
+      <select class="input-fecha w-full min-w-[110px] p-1.5 border border-slate-300 rounded text-xs bg-white text-slate-700 focus:ring-1 focus:ring-blue-500 outline-none">
+        ${generarOpcionesMeses(fecha)}
+      </select>
+    </td>
+    <td class="p-2 md:p-2.5">
+      <div class="relative">
+        <input type="number" step="0.01" value="${importe}" placeholder="0.00" class="input-importe w-full min-w-[80px] p-1.5 border border-slate-300 rounded text-xs font-bold text-slate-900 focus:ring-1 focus:ring-blue-500 outline-none pr-6">
+        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none">€</span>
+      </div>
+    </td>
+    <td class="p-2 md:p-2.5 text-slate-800 font-bold col-dias text-center">-</td>
+    <td class="p-2 md:p-2.5 col-tramo text-center">-</td>
+    <td class="p-2 md:p-2.5 text-center">
+      <button class="btn-eliminar-pago text-slate-400 hover:bg-rose-100 hover:text-rose-600 font-bold w-6 h-6 rounded flex items-center justify-center mx-auto transition">✕</button>
     </td>
   `;
   tbody.appendChild(tr);

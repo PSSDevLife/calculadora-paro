@@ -95,8 +95,11 @@ function configurarEventosBasicos() {
 }
 
 function enlazarEventosFila(tr) {
-  const inputs = tr.querySelectorAll("input");
-  inputs.forEach(input => input.addEventListener("input", manejarCambioDatos));
+  const inputs = tr.querySelectorAll("input, select");
+  inputs.forEach(input => {
+    input.addEventListener("input", manejarCambioDatos);
+    input.addEventListener("change", manejarCambioDatos);
+  });
   
   const btnEliminar = tr.querySelector(".btn-eliminar-pago");
   btnEliminar.addEventListener("click", () => {
