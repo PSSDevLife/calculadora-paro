@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function App() {
   const [brd, setBrd] = useState(61.44);
@@ -23,13 +19,13 @@ export default function App() {
 
   const [toastVisible, setToastVisible] = useState(false);
 
-  const mostrarToast = (mensaje) => {
+  const mostrarToast = () => {
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 2000);
   };
 
   const cambioDatos = () => {
-    mostrarToast("Cambios guardados");
+    mostrarToast();
   };
 
   const obtenerDiasDerecho = (cot) => {
@@ -214,7 +210,7 @@ export default function App() {
         setHijos(datos.hijos);
         setDiasPerdidos(datos.diasPerdidos);
         setPagos(datos.pagos || []);
-        mostrarToast("Copia restaurada con éxito");
+        mostrarToast();
       } catch (err) {
         alert("Error al leer el archivo.");
       }
@@ -231,7 +227,7 @@ export default function App() {
       </div>
 
       <div className="max-w-5xl mx-auto space-y-5">
-        {/* Cabecera idéntica a la imagen */}
+        {/* Cabecera */}
         <header className="bg-slate-900 text-white p-5 rounded-xl shadow">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <div>
@@ -291,7 +287,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Tramos 1 y 2 */}
+        {/* Tramos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="bg-blue-50/70 border border-blue-200 p-3.5 rounded-lg">
             <div className="flex justify-between items-start">
@@ -353,7 +349,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* 3. Balance Global del Expediente */}
+        {/* 3. Balance Global */}
         <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 border-b border-slate-100 pb-3">
             <div>
@@ -377,7 +373,7 @@ export default function App() {
             </div>
             <div className="flex flex-wrap gap-4 text-[11px] text-slate-600 pt-1 font-medium">
               <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span> <strong>Cobrado en cuenta</strong> ({pctDineroCobrado.toFixed(1)}%)</span>
-              <span className="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> <strong>Perdido fuera de plazo</strong> ({pctDineroPerdido.toFixed(1)}%)</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span> <strong>Perdido fuera de plazo</strong> ({pctDineroPerdido.toFixed(1)}%)</span>
               <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>Pendiente por cobrar</strong> ({pctDineroRestante.toFixed(1)}%)</span>
             </div>
           </div>
