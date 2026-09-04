@@ -21,6 +21,32 @@ let isAuthReady = false;
 
 // Initialize
 async function inicializar() {
+  // Lógica del modo oscuro
+  const btnTema = document.getElementById('btnTema');
+  const iconoSol = document.getElementById('iconoSol');
+  const iconoLuna = document.getElementById('iconoLuna');
+
+  function actualizarIconos() {
+    if (document.documentElement.classList.contains('dark')) {
+      iconoSol.classList.remove('hidden');
+      iconoLuna.classList.add('hidden');
+    } else {
+      iconoSol.classList.add('hidden');
+      iconoLuna.classList.remove('hidden');
+    }
+  }
+
+  btnTema.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    if (document.documentElement.classList.contains('dark')) {
+      localStorage.setItem('color-theme', 'dark');
+    } else {
+      localStorage.setItem('color-theme', 'light');
+    }
+    actualizarIconos();
+  });
+  actualizarIconos();
+
   // Escuchar estado de autenticación
   if (auth) {
     onAuthStateChanged(auth, async (user) => {
@@ -189,7 +215,7 @@ function calcularTodo() {
 
   const topes = obtenerTopesLegales(datos.hijos);
   const alertaDiv = document.getElementById("alertaTope");
-  alertaDiv.innerHTML = `<span>ℹ️ Referencia legal SEPE para <strong>${datos.hijos} hijos</strong>: Mínimo <strong>${topes.min.toFixed(2)} €/mes</strong> | Máximo orientativo <strong>${topes.max.toFixed(2)} €/mes</strong>.</span><span class="font-semibold text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded">Informativo</span>`;
+  alertaDiv.innerHTML = `<span>ℹ️ Referencia legal SEPE para <strong>${datos.hijos} hijos</strong>: Mínimo <strong>${topes.min.toFixed(2)} €/mes</strong> | Máximo orientativo <strong>${topes.max.toFixed(2)} €/mes</strong>.</span><span class="font-semibold text-[10px] bg-slate-200 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-lg">Informativo</span>`;
 
   const bruto1 = datos.brd * 0.70;
   const neto1 = Math.max(0, bruto1 - cuotaSS_diaria - (bruto1 * pctIrpf));
@@ -198,22 +224,22 @@ function calcularTodo() {
   const neto2 = Math.max(0, bruto2 - cuotaSS_diaria - (bruto2 * pctIrpf));
 
   document.getElementById("resumenTramos").innerHTML = `
-    <div class="bg-blue-50/70 border border-blue-200 p-3.5 rounded-lg">
+    <div class="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/30 p-4 rounded-2xl shadow-sm transition-colors">
       <div class="flex justify-between items-start">
-        <span class="text-[10px] font-bold text-blue-700 uppercase tracking-wide">Tramo 1 (Días 1 al 180 - 70%)</span>
-        <span class="text-[10px] font-semibold bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded">Bruto: ${bruto1.toFixed(2)} €/d</span>
+        <span class="text-[10px] font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wide">Tramo 1 (Días 1 al 180 - 70%)</span>
+        <span class="text-[10px] font-semibold bg-white dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-lg border border-blue-100 dark:border-blue-800/50">Bruto: ${bruto1.toFixed(2)} €/d</span>
       </div>
-      <p class="text-xl font-black text-blue-900 mt-1">${neto1.toFixed(2)} € / día neto</p>
-      <p class="text-xs text-slate-500 mt-0.5">Mes tipo (30 d): ${(neto1 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto1 * 30 * pctIrpf).toFixed(2)} €</p>
+      <p class="text-xl md:text-2xl font-black text-blue-950 dark:text-blue-100 mt-2">${neto1.toFixed(2)} € <span class="text-sm font-bold text-blue-700/50 dark:text-blue-400/50">/ día neto</span></p>
+      <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium">Mes tipo (30 d): ${(neto1 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto1 * 30 * pctIrpf).toFixed(2)} €</p>
     </div>
 
-    <div class="bg-slate-100 border border-slate-200 p-3.5 rounded-lg">
+    <div class="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/50 p-4 rounded-2xl shadow-sm transition-colors">
       <div class="flex justify-between items-start">
-        <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wide">Tramo 2 (Día 181 en adelante - 60%)</span>
-        <span class="text-[10px] font-semibold bg-slate-200 text-slate-800 px-1.5 py-0.5 rounded">Bruto: ${bruto2.toFixed(2)} €/d</span>
+        <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wide">Tramo 2 (Día 181 en adelante - 60%)</span>
+        <span class="text-[10px] font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700">Bruto: ${bruto2.toFixed(2)} €/d</span>
       </div>
-      <p class="text-xl font-black text-slate-900 mt-1">${neto2.toFixed(2)} € / día neto</p>
-      <p class="text-xs text-slate-500 mt-0.5">Mes tipo (30 d): ${(neto2 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto2 * 30 * pctIrpf).toFixed(2)} €</p>
+      <p class="text-xl md:text-2xl font-black text-slate-900 dark:text-slate-100 mt-2">${neto2.toFixed(2)} € <span class="text-sm font-bold text-slate-500/50 dark:text-slate-400/50">/ día neto</span></p>
+      <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium">Mes tipo (30 d): ${(neto2 * 30).toFixed(2)} € | SS: ${(cuotaSS_diaria * 30).toFixed(2)} € | IRPF: ${(bruto2 * 30 * pctIrpf).toFixed(2)} €</p>
     </div>
   `;
 

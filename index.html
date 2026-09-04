@@ -5,61 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Oficial SEPE</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+    // Lógica para establecer el modo oscuro inicial
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+  </script>
   <script type="module" src="./js/main.js" defer></script>
 </head>
-<body class="bg-slate-100 text-slate-800 p-3 md:p-8 font-sans">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 p-3 md:p-8 font-sans transition-colors duration-300">
 
-  <!-- Notificación Toast Flotante en la Esquina Superior Derecha -->
-  <div id="toastNotificacion" class="fixed top-5 right-5 z-50 transform translate-x-72 opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-2 bg-slate-900/90 backdrop-blur-sm text-emerald-400 border border-emerald-500/40 px-3.5 py-2 rounded-xl shadow-xl text-xs font-semibold">
+  <!-- Notificación Toast Flotante -->
+  <div id="toastNotificacion" class="fixed top-5 right-5 z-50 transform translate-x-72 opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-2 bg-slate-900/90 dark:bg-slate-800/90 backdrop-blur-sm text-emerald-400 border border-emerald-500/40 px-3.5 py-2 rounded-xl shadow-xl text-xs font-semibold">
     <span class="flex h-2 w-2 relative">
       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
       <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
     </span>
-    <span>Cambios guardados</span>
+    <span>Cambios guardados en la nube</span>
   </div>
 
-  <div class="max-w-5xl mx-auto space-y-5">
-    <!-- Encabezado con estado de guardado dinámico -->
-    <header class="bg-slate-900 text-white p-5 rounded-xl shadow">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+  <div class="max-w-5xl mx-auto space-y-6">
+    <!-- Encabezado -->
+    <header class="bg-slate-900 dark:bg-slate-900 text-white p-5 rounded-2xl shadow-lg border border-slate-800">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 class="text-xl md:text-2xl font-black">Calculadora de Paro SEPE</h1>
+          <h1 class="text-xl md:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">Calculadora de Paro SEPE</h1>
           <p class="text-slate-400 text-xs md:text-sm mt-0.5">Control económico, autocalibración de IRPF y persistencia continua en la nube.</p>
         </div>
         
-        <!-- Contenedor Auth de Google -->
         <div class="flex flex-wrap items-center gap-3">
-          <div id="contenedorAuth" class="flex items-center">
-            <!-- Se inyecta desde ui.js -->
-          </div>
+          <!-- Botón Tema Oscuro -->
+          <button id="btnTema" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 transition-colors border border-slate-700" title="Cambiar tema">
+            <svg id="iconoSol" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+            <svg id="iconoLuna" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+          </button>
+          <!-- Contenedor Auth -->
+          <div id="contenedorAuth" class="flex items-center"></div>
         </div>
       </div>
     </header>
 
-    <!-- Alerta de no inicio de sesión -->
-    <div id="alertaNoLogin" class="hidden bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-xl shadow-sm text-sm font-medium flex items-center gap-2">
-      <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-      Inicia sesión con Google para habilitar el guardado automático. Si no inicias sesión, los datos se perderán al cerrar la página.
+    <!-- Alerta -->
+    <div id="alertaNoLogin" class="hidden bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50 text-amber-800 dark:text-amber-300 px-4 py-3 rounded-2xl shadow-sm text-sm font-medium flex items-center gap-2">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      Inicia sesión con Google para habilitar el guardado automático. Si no inicias sesión, los datos se perderán al salir.
     </div>
 
-    <!-- Formulario de Parámetros -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-      <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">1. Datos del Reconocimiento</h2>
+    <!-- Parámetros -->
+    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+      <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <span class="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 w-5 h-5 flex items-center justify-center rounded-full">1</span> 
+        Datos del Reconocimiento
+      </h2>
       
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Base Reguladora (€/día)</label>
-          <input type="number" id="brd" value="0" step="0.01" class="w-full p-2 border rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Base Reguladora (€/día)</label>
+          <input type="number" id="brd" value="0" step="0.01" class="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors">
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Días Cotizados</label>
-          <input type="number" id="diasCotizados" value="0" class="w-full p-2 border rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Días Cotizados</label>
+          <input type="number" id="diasCotizados" value="0" class="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors">
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Hijos a cargo</label>
-          <select id="hijos" class="w-full p-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none font-semibold">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Hijos a cargo</label>
+          <select id="hijos" class="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors">
             <option value="0" selected>0 hijos</option>
             <option value="1">1 hijo</option>
             <option value="2">2 o más hijos</option>
@@ -67,113 +84,118 @@
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Días perdidos (fuera plazo)</label>
-          <input type="number" id="diasPerdidos" value="0" class="w-full p-2 border border-rose-300 bg-rose-50/50 rounded-lg text-sm font-bold text-rose-800 focus:ring-2 focus:ring-rose-500 outline-none">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Días perdidos (fuera plazo)</label>
+          <input type="number" id="diasPerdidos" value="0" class="w-full p-2.5 bg-rose-50/50 dark:bg-rose-900/10 border border-rose-300 dark:border-rose-800/50 rounded-xl text-sm font-bold text-rose-800 dark:text-rose-400 focus:ring-2 focus:ring-rose-500 outline-none transition-colors">
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">IRPF Detectado / Aplicado</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">IRPF Detectado / Aplicado</label>
           <div class="relative">
-            <input type="text" id="irpfDisplay" readonly value="0.00 %" class="w-full p-2 bg-blue-50 border border-blue-200 rounded-lg text-sm font-black text-blue-900 text-center cursor-default">
-            <span id="irpfTag" class="block text-[10px] text-blue-600 text-center font-medium mt-0.5">Pendiente de datos</span>
+            <input type="text" id="irpfDisplay" readonly value="0.00 %" class="w-full p-2.5 bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl text-sm font-black text-blue-900 dark:text-blue-400 text-center cursor-default transition-colors">
+            <span id="irpfTag" class="block text-[10px] text-blue-600 dark:text-blue-400 text-center font-medium mt-1">Pendiente de datos</span>
           </div>
         </div>
       </div>
 
-      <div id="alertaTope" class="mt-3 p-2.5 rounded-lg border text-xs flex items-center justify-between bg-slate-50 border-slate-200 text-slate-600"></div>
+      <div id="alertaTope" class="mt-4 p-3 rounded-xl border text-xs flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-400 transition-colors"></div>
     </div>
 
-    <!-- Resumen de Tramos Diarios -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="resumenTramos"></div>
+    <!-- Tramos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="resumenTramos"></div>
 
-    <!-- Historial de Pagos Bancarios -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-3">
-      <div class="flex justify-between items-center flex-wrap gap-2">
+    <!-- Pagos Bancarios -->
+    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors space-y-4">
+      <div class="flex justify-between items-center flex-wrap gap-3">
         <div>
-          <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">2. Historial de Ingresos Bancarios</h2>
-          <p class="text-xs text-slate-500">Cualquier cambio, añadido o borrado se guarda al instante.</p>
+          <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <span class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 w-5 h-5 flex items-center justify-center rounded-full">2</span> 
+            Historial de Ingresos Bancarios
+          </h2>
+          <p class="text-[11px] text-slate-500 dark:text-slate-500 mt-1">Calculamos automáticamente cada importe en días oficiales e identificamos los cambios de tramo.</p>
         </div>
         <div class="flex gap-2">
-          <button id="btnAgregarPago" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition">
+          <button id="btnAgregarPago" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm shadow-indigo-600/20">
             + Añadir Pago
           </button>
-          <button id="btnVaciar" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+          <button id="btnVaciar" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition">
             Vaciar
           </button>
         </div>
       </div>
 
-      <div class="overflow-x-auto border border-slate-200 rounded-lg">
+      <div class="overflow-x-auto border border-slate-200 dark:border-slate-700/80 rounded-xl">
         <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200 text-[10px] sm:text-xs">
+          <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-700/80 text-[10px] sm:text-[11px]">
             <tr>
-              <th class="p-2 sm:p-2.5 text-center w-8">#</th>
-              <th class="p-2 sm:p-2.5 whitespace-nowrap">Mes de Cobro</th>
-              <th class="p-2 sm:p-2.5 whitespace-nowrap">Importe Neto</th>
-              <th class="p-2 sm:p-2.5 text-center whitespace-nowrap">Días</th>
-              <th class="p-2 sm:p-2.5 text-center whitespace-nowrap">Tramo</th>
-              <th class="p-2 sm:p-2.5 text-center">Acción</th>
+              <th class="p-3 text-center w-8">#</th>
+              <th class="p-3 whitespace-nowrap">Mes de Cobro</th>
+              <th class="p-3 whitespace-nowrap">Importe Neto</th>
+              <th class="p-3 text-center whitespace-nowrap">Días</th>
+              <th class="p-3 text-center whitespace-nowrap">Tramo</th>
+              <th class="p-3 text-center">Acción</th>
             </tr>
           </thead>
-          <tbody id="cuerpoTablaPagos" class="divide-y divide-slate-100"></tbody>
+          <tbody id="cuerpoTablaPagos" class="divide-y divide-slate-100 dark:divide-slate-800/50"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- Balance Global y Cuentas en Dinero -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-5">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 border-b border-slate-100 pb-3">
+    <!-- Balance Global -->
+    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div>
-          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">3. Balance Global del Expediente</h2>
-          <p class="text-xs text-slate-500">Comparativa directa en euros del dinero total del paro frente a lo cobrado.</p>
+          <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 w-5 h-5 flex items-center justify-center rounded-full">3</span> 
+            Balance Global del Expediente
+          </h2>
         </div>
-        <div class="text-xs font-bold text-slate-700">
-          Total de la bolsa: <span id="txtBolsaDineroTotal" class="text-sm font-black text-indigo-900">0,00 €</span>
-        </div>
-      </div>
-
-      <!-- Barra Visual de Dinero -->
-      <div class="space-y-1.5">
-        <div class="flex justify-between items-baseline text-xs font-bold">
-          <span class="text-slate-700">Progreso económico: <span id="txtDineroCobradoBarra" class="text-blue-700 font-extrabold">0,00 €</span> cobrados de <span id="txtDineroTotalBarra" class="text-slate-900 font-extrabold">0,00 €</span></span>
-          <span id="txtPorcentajeDinero" class="text-blue-900 font-black text-sm">0%</span>
-        </div>
-        <div class="w-full bg-slate-200 rounded-full h-4 flex overflow-hidden shadow-inner">
-          <div id="barraCobradaDinero" class="bg-blue-600 h-full transition-all" style="width: 0%" title="Dinero cobrado"></div>
-          <div id="barraPerdidaDinero" class="bg-rose-500 h-full transition-all" style="width: 0%" title="Dinero perdido"></div>
-          <div id="barraRestanteDinero" class="bg-emerald-500 h-full transition-all" style="width: 0%" title="Dinero pendiente"></div>
-        </div>
-        <div class="flex flex-wrap gap-4 text-[11px] text-slate-600 pt-1 font-medium">
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> <strong>Cobrado en cuenta</strong> (<span id="tagPctCobrado">0%</span>)</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> <strong>Perdido fuera de plazo</strong> (<span id="tagPctPerdido">0%</span>)</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>Pendiente por cobrar</strong> (<span id="tagPctRestante">0%</span>)</span>
+        <div class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg">
+          Total de la bolsa: <span id="txtBolsaDineroTotal" class="text-sm font-black text-slate-900 dark:text-white ml-1">0,00 €</span>
         </div>
       </div>
 
-      <!-- Tarjetas de métricas en dinero -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1 text-center">
-        <div class="p-4 bg-indigo-50/70 rounded-xl border-2 border-indigo-200/80 shadow-sm flex flex-col justify-between">
-          <span class="text-[10px] uppercase font-bold text-indigo-700 tracking-wider">Total a Cobrar (100%)</span>
-          <p class="text-xl md:text-2xl font-black text-indigo-950 my-1" id="resumenEurosTotalBolsa">0,00 €</p>
-          <span class="text-xs text-indigo-800 font-semibold" id="resumenDiasDerecho">300 días concedidos</span>
+      <!-- Barra Visual -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-baseline text-[11px] sm:text-xs font-bold">
+          <span class="text-slate-500 dark:text-slate-400">Progreso: <span id="txtDineroCobradoBarra" class="text-indigo-600 dark:text-indigo-400">0,00 €</span> de <span id="txtDineroTotalBarra" class="text-slate-800 dark:text-slate-200">0,00 €</span></span>
+          <span id="txtPorcentajeDinero" class="text-indigo-900 dark:text-indigo-300 font-black text-sm bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded">0%</span>
+        </div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-5 flex overflow-hidden shadow-inner border border-slate-200 dark:border-slate-700/50">
+          <div id="barraCobradaDinero" class="bg-indigo-500 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero cobrado"></div>
+          <div id="barraPerdidaDinero" class="bg-rose-500 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero perdido"></div>
+          <div id="barraRestanteDinero" class="bg-emerald-400 h-full transition-all duration-500 ease-out" style="width: 0%" title="Dinero pendiente"></div>
+        </div>
+        <div class="flex flex-wrap gap-4 text-[11px] text-slate-600 dark:text-slate-400 pt-2 font-medium justify-center sm:justify-start">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-sm"></span> <strong>Cobrado</strong> (<span id="tagPctCobrado">0%</span>)</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span> <strong>Perdido</strong> (<span id="tagPctPerdido">0%</span>)</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm"></span> <strong>Pendiente</strong> (<span id="tagPctRestante">0%</span>)</span>
+        </div>
+      </div>
+
+      <!-- Tarjetas de métricas -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2 text-center">
+        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/50 flex flex-col justify-between transition-colors">
+          <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">Total a Cobrar</span>
+          <p class="text-xl md:text-2xl font-black text-slate-900 dark:text-white my-1.5" id="resumenEurosTotalBolsa">0,00 €</p>
+          <span class="text-[11px] text-slate-500 dark:text-slate-500 font-semibold bg-white dark:bg-slate-800 rounded-lg py-1 border border-slate-100 dark:border-slate-700" id="resumenDiasDerecho">0 días concedidos</span>
         </div>
 
-        <div class="p-4 bg-blue-50/70 rounded-xl border-2 border-blue-200/80 shadow-sm flex flex-col justify-between">
-          <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider">Llevas Cobrado</span>
-          <p class="text-xl md:text-2xl font-black text-blue-950 my-1" id="resumenEurosCobrados">0,00 €</p>
-          <span class="text-xs text-blue-800 font-semibold" id="resumenDiasCobrados">0 días cobrados</span>
+        <div class="p-4 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800/30 flex flex-col justify-between transition-colors">
+          <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400 tracking-wider">Llevas Cobrado</span>
+          <p class="text-xl md:text-2xl font-black text-indigo-950 dark:text-indigo-100 my-1.5" id="resumenEurosCobrados">0,00 €</p>
+          <span class="text-[11px] text-indigo-700 dark:text-indigo-300 font-semibold bg-white/60 dark:bg-indigo-900/40 rounded-lg py-1 border border-indigo-100 dark:border-indigo-800/50" id="resumenDiasCobrados">0 días cobrados</span>
         </div>
 
-        <div class="p-4 bg-emerald-50/70 rounded-xl border-2 border-emerald-200/80 shadow-sm flex flex-col justify-between">
-          <span class="text-[10px] uppercase font-bold text-emerald-700 tracking-wider">Queda por Cobrar</span>
-          <p class="text-xl md:text-2xl font-black text-emerald-950 my-1" id="resumenEurosRestantes">0,00 €</p>
-          <span class="text-xs text-emerald-800 font-semibold" id="resumenDiasRestantes">0 días pendientes</span>
+        <div class="p-4 bg-emerald-50/50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-800/30 flex flex-col justify-between transition-colors">
+          <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 tracking-wider">Queda por Cobrar</span>
+          <p class="text-xl md:text-2xl font-black text-emerald-950 dark:text-emerald-100 my-1.5" id="resumenEurosRestantes">0,00 €</p>
+          <span class="text-[11px] text-emerald-700 dark:text-emerald-300 font-semibold bg-white/60 dark:bg-emerald-900/40 rounded-lg py-1 border border-emerald-100 dark:border-emerald-800/50" id="resumenDiasRestantes">0 días pendientes</span>
         </div>
 
-        <div class="p-4 bg-rose-50/70 rounded-xl border-2 border-rose-200/80 shadow-sm flex flex-col justify-between">
-          <span class="text-[10px] uppercase font-bold text-rose-700 tracking-wider">Perdido sin Cobro</span>
-          <p class="text-xl md:text-2xl font-black text-rose-950 my-1" id="resumenEurosPerdidos">0,00 €</p>
-          <span class="text-xs text-rose-800 font-semibold" id="resumenDiasPerdidos">0 días perdidos</span>
+        <div class="p-4 bg-rose-50/50 dark:bg-rose-900/20 rounded-2xl border border-rose-100 dark:border-rose-800/30 flex flex-col justify-between transition-colors">
+          <span class="text-[10px] uppercase font-bold text-rose-600 dark:text-rose-400 tracking-wider">Perdido sin Cobro</span>
+          <p class="text-xl md:text-2xl font-black text-rose-950 dark:text-rose-100 my-1.5" id="resumenEurosPerdidos">0,00 €</p>
+          <span class="text-[11px] text-rose-700 dark:text-rose-300 font-semibold bg-white/60 dark:bg-rose-900/40 rounded-lg py-1 border border-rose-100 dark:border-rose-800/50" id="resumenDiasPerdidos">0 días perdidos</span>
         </div>
       </div>
     </div>
