@@ -263,7 +263,6 @@ function calcularTodo() {
   const dineroPerdidoEstimado = datos.diasPerdidos * neto1;
   const diasConsumidosTotales = diasCobradosTotal + datos.diasPerdidos;
   const diasRestantes = Math.max(0, diasDerechoTotal - diasConsumidosTotales);
-  const eurosRestantes = diasRestantes * neto2;
 
   let eurosTotalesBolsa = 0;
   if (diasDerechoTotal <= 180) {
@@ -271,6 +270,9 @@ function calcularTodo() {
   } else {
     eurosTotalesBolsa = (180 * neto1) + ((diasDerechoTotal - 180) * neto2);
   }
+
+  // Corregimos el cálculo: lo que queda es el total menos lo ya cobrado y lo perdido
+  const eurosRestantes = Math.max(0, eurosTotalesBolsa - totalEurosCobrados - dineroPerdidoEstimado);
 
   document.getElementById("resumenEurosTotalBolsa").textContent = `${eurosTotalesBolsa.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
   document.getElementById("txtBolsaDineroTotal").textContent = `${eurosTotalesBolsa.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
