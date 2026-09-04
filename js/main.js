@@ -107,10 +107,10 @@ function enlazarEventosFila(tr) {
 }
 
 function pintarDatosEnUI(datos) {
-  formElements.brd.value = datos.brd || 61.44;
-  formElements.diasCotizados.value = datos.diasCotizados || 1040;
-  formElements.hijos.value = datos.hijos || 0;
-  formElements.diasPerdidos.value = datos.diasPerdidos || 0;
+  formElements.brd.value = datos.brd !== undefined ? datos.brd : 0;
+  formElements.diasCotizados.value = datos.diasCotizados !== undefined ? datos.diasCotizados : 0;
+  formElements.hijos.value = datos.hijos !== undefined ? datos.hijos : 0;
+  formElements.diasPerdidos.value = datos.diasPerdidos !== undefined ? datos.diasPerdidos : 0;
 
   tbodyPagos.innerHTML = "";
   if (datos.pagos && datos.pagos.length > 0) {
